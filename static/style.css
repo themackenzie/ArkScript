@@ -37,6 +37,7 @@ h1 {
 
 
 #code-editor {
+    
     flex-grow: 1;
     min-height: 300px;
     padding: 15px;
@@ -293,3 +294,70 @@ button:hover {
 #files {
     display: none;
 }
+
+
+
+
+
+.CodeMirror {
+    flex-grow: 1; 
+    height: auto; 
+    min-height: 300px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    padding: 0 !important; 
+}
+
+
+.CodeMirror {
+  background-color: #282a36 !important; 
+  color: #f8f8f2 !important; 
+}
+
+.CodeMirror-activeline-background {
+  background-color: #44475a !important; 
+}
+
+.CodeMirror-linenumbers {
+  background-color: #282a36 !important;
+  color: #6272a4 !important;
+}
+
+.CodeMirror-cursor {
+  border-left: 1px solid #f8f8f2 !important;
+}
+
+
+
+
+.CodeMirror .cm-keyword {
+    color: #ff79c6 !important; 
+    font-weight: bold !important;
+}
+
+
+.CodeMirror .cm-builtin {
+    color: #8be9fd !important; 
+}
+
+
+.CodeMirror .cm-string {
+    color: #f1fa8c !important; 
+}
+
+
+.CodeMirror .cm-comment {
+    color: #6272a4 !important; 
+}
+
+
+.CodeMirror .cm-number {
+    color: #bd93f9 !important; 
+}
+
+
+.CodeMirror .cm-variable {
+    color: #f8f8f2 !important; 
+}
+

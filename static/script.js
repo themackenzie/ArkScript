@@ -1,6 +1,5 @@
 
-
-const codeEditor = document.getElementById('code-editor');
+let editor; 
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('files');
 const inputFileList = document.getElementById('input-file-list');
@@ -11,15 +10,108 @@ let selectedFiles = [];
 let currentView = 'icon'; 
 
 
+
+
+
+
+if (typeof CodeMirror !== 'undefined') {
+    CodeMirror.defineMode("arkscript", function() {
+        console.log("¡Tokenizador de modo arkscript cargado con éxito! (Usando bucle manual de compatibilidad)"); 
+        
+        
+        const tokenMap = {
+            
+            "var": "keyword",
+            "buscar": "keyword",
+            "fusionar": "keyword",
+            "reemplazar": "keyword",
+            "sobreescribir": "keyword",
+            "enumerar": "keyword",
+            "extraer": "keyword",
+            "invertir": "keyword",
+            "fragmentar": "keyword",
+            
+            
+            "separado_por": "builtin",
+            "todo": "builtin",
+            "con": "builtin",
+            "sin": "builtin",
+            "desde": "builtin",
+            "hasta": "builtin",
+            "de": "builtin",
+            "en": "builtin",
+            "por": "builtin"
+        };
+
+        
+        const wordRegex = /^[a-zA-Z_][a-zA-Z0-9_]*/;
+
+
+        return {
+            startState: function() {return {inString: false};},
+            
+            token: function(stream, state) {
+                
+                
+                while (stream.peek() && /\s/.test(stream.peek())) {
+                    stream.next();
+                }
+                if (!stream.peek()) return null; 
+
+
+                
+                if (stream.match("//")) {
+                    stream.skipToEnd();
+                    return "comment";
+                }
+                
+                
+                if (stream.peek() === '"') {
+                    stream.next(); 
+                    
+                    stream.skipTo('"') || stream.skipToEnd();
+                    stream.next(); 
+                    return "string";
+                }
+
+                
+                if (stream.match(/^[0-9]+/)) {
+                    return "number";
+                }
+                
+                
+                if (stream.match(wordRegex)) {
+                    const word = stream.current();
+                    const tokenType = tokenMap[word];
+                    
+                    if (tokenType) {
+                        return tokenType; 
+                    }
+                    
+                    return "variable"; 
+                }
+                
+                
+                stream.next();
+                return null;
+            }
+        };
+    });
+}
+
+
+
+
+
+
+
 function getFileIcon(filename) {
-    const extension = filename.split('.').pop().toLowerCase();
+    const extension = filename.split('.').pop().toLowerCase(); 
     if (extension === 'pdf') {
         return 'fas fa-file-pdf'; 
     }
     return 'fas fa-file-alt'; 
 }
-
-
 
 
 function showTab(tabName) {
@@ -154,7 +246,8 @@ async function uploadFiles(files) {
 
 
 function runCode() {
-    const code = codeEditor.value;
+    
+    const code = editor.getValue(); 
     const formData = new FormData();
     formData.append('code', code); 
     
@@ -199,8 +292,6 @@ function runCode() {
         console.error('Error:', error);
     });
 }
-
-
 
 
 function preventDefaults (e) {
@@ -270,5 +361,21 @@ async function initializeApp() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const textarea = document.getElementById('code-editor');
+    if (typeof CodeMirror !== 'undefined') {
+        editor = CodeMirror.fromTextArea(textarea, {
+            lineNumbers: true, 
+            mode: "arkscript", 
+            theme: "dracula" 
+        });
+        
+        console.log("CodeMirror transformado con modo de estado 'arkscript'.");
+        
+    } else {
+         console.error("ERROR: CodeMirror no está definido.");
+    }
+    
+    
     initializeApp(); 
 });

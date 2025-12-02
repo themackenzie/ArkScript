@@ -6,6 +6,8 @@
     <title>Intérprete Web de Gestor de Archivos (DSL)</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v=cache_buster) }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
 </head>
 <body>
     <h1>ArkScript</h1>
@@ -14,15 +16,14 @@
 
         <div class="left-panel">
             <h2>Código DSL</h2>
-            <textarea id="code-editor" rows="20" cols="100">var data1 = "text01.txt",
+            <textarea id="code-editor" class="cm-s-dracula" rows="20" cols="100">var data1 = "text01.txt",
 var data2 = "text02.pdf",
 var data3 = "work.pdf",
 var cadena = "IMAGEN",
 var n_cadena = "IMAGEN{X} ",
 
 
-
-//buscar repeticiones de cadena de data1,
+buscar repeticiones de cadena de data1,
 
 //fusionar data1 con data2 separado_por "SEPARADOR" en "text03.pdf",
 //fusionar "work.pdf" con data2 separado_por cadena en "text04.txt",
@@ -92,6 +93,8 @@ var n_cadena = "IMAGEN{X} ",
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='script.js', v=cache_buster) }}"></script>
 </body>
 </html>
